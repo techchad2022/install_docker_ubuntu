@@ -1,6 +1,6 @@
 ---
 - name: Install docker on ubuntu 22.04
-  remote_user: tcadmin
+  remote_user: 
   hosts: all
   become: true
   become_method: sudo
