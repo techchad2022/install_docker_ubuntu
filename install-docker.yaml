@@ -1,0 +1,53 @@
+---
+- name: Install docker on ubuntu 22.04
+  remote_user: tcadmin
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+    - name: updating apt cache
+      apt:
+        update_cache: yes
+    - name: "running system upgrade"
+      apt:
+        upgrade: dist
+        update_cache: yes
+    - name: installing dependencies
+      apt: 
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: latest
+        update_cache: true
+    - name: creating keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+    - name: adding docker official key
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    - name: setting up the docker repo
+      ansible.builtin.shell:
+        cmd:  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    - name: updating apt cache
+      apt:
+        update_cache: yes
+    - name: installing docker-ce
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+    - name: Enable docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: yes
+    - name: permitting user to use docker.
+      ansible.builtin.shell:
+        cmd: sudo usermod -aG docker tcadmin
