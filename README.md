@@ -1,6 +1,6 @@
 # Install docker on ubuntu server 22.04
 ## Description
-This is an ansible script to install Latest docker community edition on Ubuntu Server 22.04 LTS.
+This is an ansible playbook to install Latest docker community edition on Ubuntu Server 22.04 LTS.
 
 ## usage 
 Edit the remote hostname.
