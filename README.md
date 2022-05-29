@@ -4,8 +4,8 @@ This is an ansible script to install Latest docker community edition on Ubuntu S
 
 ## usage 
 Edit the remote hostname.
-> cd install_docker_ubuntu
-> ansible-playbook install-docker.yaml
+    > cd install_docker_ubuntu
+    > ansible-playbook install-docker.yaml
 
 ## Requirements 
     -> Ubuntu Server 22.04
